@@ -1,62 +1,27 @@
 // from data.js
 var tableData = data;
 
-// select the filter button
-var button = d3.select("#filter-btn");
-
 // select the body element
-var tbody = d3.select("tbody");
+let tbody = d3.select("tbody");
 
-// listing sightings in the table
-data.forEach((sighting) => {
-    var row = tbody.append("tr");
-    Object.entries(sighting).forEach(([key, value]) => {
-        var cell = row.append("td");
-        cell.text(value);
+function buildTable(data) {
+    tbody.html("")
+
+    data.forEach((dataRow) => {
+        Object.values(dataRow).foreach((value) => {
+            let cell = row.append("td")
+            cell.text(value)
+        })
     })
-});
+}
 
-// // taking  user input to filter by date
-// button.on("click",function() {
+let filters = {}
+function updateFilters(){
 
-//     // Prevent the page from refreshing
-//     d3.event.preventDefault();
+}
 
-//     // Select the input element and get the raw HTML node
-//     var inputElement = d3.select("#datetime");
+// Attach an event to listen for changes to each filter 
+d3.selectAll(".filter").on("change",updateFilters)
 
-//     // Get the value property of the input element
-//     var inputValue = inputElement.property("value");
-
-//     console.log(inputValue);
-
-//     // filter the data table to match user's input
-//     var filteredData = tableData.filter(sighting => sighting.datetime === inputValue);
-//     tbody.html("");
-
-//     // displayed filtered data
-//     filteredData.forEach((sighting) => {
-//         var row = tbody.append("tr");
-//         Object.entries(sighting).forEach(([key, value]) => {
-//             var cell = row.append("td");
-//             cell.text(value);
-//         })
-//     });
-// });
-
-function updateFilter() {
-    d3.event.preventDefault();
-
-    var inputElement = d3.select("#datetime")
-    var inputElement = d3.select("#city")
-    var inputElement = d3.select("#state")
-    var inputElement = d3.select("#country")
-    var inputElement = d3.select("#shape")
-
-    var inputValue = inputElement.property("value");
-
-    console.log(inputValue);
-
-};
-
-d3.select("#filter-btn").on("change",updateFilter);
+// Build the table when the page loads
+buildTable(tableData)
