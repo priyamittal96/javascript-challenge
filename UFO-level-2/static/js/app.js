@@ -2,13 +2,14 @@
 var tableData = data;
 
 // select the body element
-let tbody = d3.select("tbody");
+let tbody = d3.select("tbody")
 
 function buildTable(data) {
     tbody.html("")
 
     data.forEach((dataRow) => {
-        Object.values(dataRow).foreach((value) => {
+        let row = tbody.append("tr")
+        Object.values(dataRow).forEach((value) => {
             let cell = row.append("td")
             cell.text(value)
         })
@@ -22,15 +23,25 @@ function updateFilters(){
 
     let elementValue = changeElement.property("value");
 
-    let filterID = changeElement.attr("id")
+    let filterId = changeElement.attr("id")
     
     if(elementValue){
-        filters[filterID] = elementValue
+        filters[filterId] = elementValue
     }
     else {
-        delete filters[filterID]
+        delete filters[filterId]
     }
     filterTable()
+}
+
+function filterTable() {
+    let filteredData = tableData;
+
+    Object.entries(filters).forEach(([key,value]) => {
+        filteredData = filteredData.filter(row => row[key] === value)
+    })
+
+    buildTable(filteredData)
 }
 
 // Attach an event to listen for changes to each filter 
